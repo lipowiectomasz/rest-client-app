@@ -5,7 +5,8 @@ import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { createNavigation } from 'next-intl/navigation';
 import { locales } from '@/i18n/routing';
-// import LanguageSelector from './LanguageSelector';
+import Image from 'next/image';
+import LanguageSelector from '../LanguageSelector';
 // import ThemeSelector from './ThemeSelector';
 
 // 🔑 NextAuth
@@ -44,12 +45,22 @@ const Navbar = () => {
         text-indigo-900 py-4 px-6 flex items-center mb-8`}
       >
         {/* Left side - links */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3">
+          <navigation.Link href="/">
+            <Image
+              src="/images/logos/rss-logo.svg"
+              alt="RSS logo"
+              width={30}
+              height={30}
+              priority
+            />
+          </navigation.Link>
+
           <navigation.Link
             href="/"
             className={`text-lg font-bold transition-colors ${
               isActive('')
-                ? 'underline underline-offset-4 text-purple-400'
+                ? 'underline underline-offset-4 text-purple-900'
                 : 'hover:text-purple-500'
             }`}
           >
@@ -58,7 +69,7 @@ const Navbar = () => {
         </div>
         {/* Right side - controls */}
         <div className="flex items-center gap-4">
-          {/* <LanguageSelector /> */}
+          <LanguageSelector />
           {/* <ThemeSelector /> */}
           {/* Auth buttons */}
           {/* {session ? ( */}
