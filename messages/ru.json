@@ -1,0 +1,24 @@
+{
+  "navigation": {
+    "home": "Главная",
+    "language": "Выбрать язык"
+  },
+
+  "common": {
+    "signIn": "Войти",
+    "signOut": "Выйти",
+    "loading": "Загрузка...",
+    "error": "Произошла ошибка",
+    "theme": {
+      "light": "Светлая",
+      "dark": "Тёмная"
+    }
+  },
+  "mainPage": {
+    "title": "Добро пожаловать в приложение Rest Client"
+  },
+  "footer": {
+    "text": "Rest Client App. Все права защищены.",
+    "builtBy": "Создано"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "language": "Seleccionar idioma"
+  },
+
+  "common": {
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "theme": {
+      "light": "Claro",
+      "dark": "Oscuro"
+    }
+  },
+  "mainPage": {
+    "title": "Bienvenido a la aplicación Rest Client"
+  },
+  "footer": {
+    "text": "Rest Client App. Todos los derechos reservados.",
+    "builtBy": "Creado por"
+  }
+}

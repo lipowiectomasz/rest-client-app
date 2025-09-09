@@ -1,0 +1,24 @@
+{
+  "navigation": {
+    "home": "Галоўная",
+    "language": "Абярыце мову"
+  },
+
+  "common": {
+    "signIn": "Увайсці",
+    "signOut": "Выйсці",
+    "loading": "Загрузка...",
+    "error": "Адбылася памылка",
+    "theme": {
+      "light": "Светлая",
+      "dark": "Цёмная"
+    }
+  },
+  "mainPage": {
+    "title": "Сардэчна запрашаем у дадатак Rest Client"
+  },
+  "footer": {
+    "text": "Rest Client App. Усе правы абаронены.",
+    "builtBy": "Створана"
+  }
+}

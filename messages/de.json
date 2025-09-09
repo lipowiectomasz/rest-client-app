@@ -1,0 +1,24 @@
+{
+  "navigation": {
+    "home": "Startseite",
+    "language": "Sprache auswählen"
+  },
+
+  "common": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "loading": "Lädt...",
+    "error": "Ein Fehler ist aufgetreten",
+    "theme": {
+      "light": "Hell",
+      "dark": "Dunkel"
+    }
+  },
+  "mainPage": {
+    "title": "Willkommen bei der Rest Client App"
+  },
+  "footer": {
+    "text": "Rest Client App. Alle Rechte vorbehalten.",
+    "builtBy": "Erstellt von"
+  }
+}
