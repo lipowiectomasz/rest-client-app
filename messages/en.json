@@ -1,0 +1,19 @@
+{
+  "navigation": {
+    "home": "Home"
+  },
+
+  "common": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "mainPage": {
+    "title": "Welcome to the Rest CLient app"
+  }
+}
