@@ -1,6 +1,7 @@
 {
   "navigation": {
-    "home": "Home"
+    "home": "Home",
+    "language": "Select Language"
   },
 
   "common": {
@@ -15,5 +16,9 @@
   },
   "mainPage": {
     "title": "Welcome to the Rest CLient app"
+  },
+  "footer": {
+    "text": "Rest Client App. All rights reserved.",
+    "builtBy": "Built by"
   }
 }
