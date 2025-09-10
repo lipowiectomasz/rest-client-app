@@ -7,6 +7,7 @@
   "common": {
     "signIn": "Anmelden",
     "signOut": "Abmelden",
+    "signUp": "Registrieren",
     "loading": "Lädt...",
     "error": "Ein Fehler ist aufgetreten",
     "theme": {
@@ -15,7 +16,10 @@
     }
   },
   "mainPage": {
-    "title": "Willkommen bei der Rest Client App"
+    "title": "Willkommen bei der Rest Client App",
+    "subtitle": "Sende Anfragen, speichere deinen Verlauf und erhalte sofort Metriken.",
+    "history": "Verlauf",
+    "variables": "Variablen"
   },
   "footer": {
     "text": "Rest Client App. Alle Rechte vorbehalten.",

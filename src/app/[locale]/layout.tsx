@@ -26,7 +26,7 @@ export default async function RootLayout({
       <body className="">
         <NextIntlClientProvider messages={messages}>
           <Navbar />
-          <main>{children}</main>
+          <main className="min-h-[60dvh] mt-18">{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>

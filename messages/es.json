@@ -7,6 +7,7 @@
   "common": {
     "signIn": "Iniciar sesión",
     "signOut": "Cerrar sesión",
+    "signUp": "Regístrate",
     "loading": "Cargando...",
     "error": "Ocurrió un error",
     "theme": {
@@ -15,7 +16,10 @@
     }
   },
   "mainPage": {
-    "title": "Bienvenido a la aplicación Rest Client"
+    "title": "Bienvenido a la aplicación Rest Client",
+    "subtitle": "Envía solicitudes, guarda tu historial y obtén métricas al instante.",
+    "history": "Historial",
+    "variables": "Variables"
   },
   "footer": {
     "text": "Rest Client App. Todos los derechos reservados.",
