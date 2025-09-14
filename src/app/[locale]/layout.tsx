@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import Navbar from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { SessionProvider } from 'next-auth/react';
+import { auth } from '@/auth';
 
 export const metadata: Metadata = {
   title: 'REST Client App – Lightweight API Testing Tool with Authentication, History & Variables',
@@ -20,15 +22,34 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
   const messages = await getMessages();
+  const session = await auth();
+
+  if (!session) {
+    return (
+      <html lang={locale}>
+        <body className="">
+          <SessionProvider>
+            <NextIntlClientProvider messages={messages}>
+              <Navbar />
+              <main className="min-h-[60dvh] mt-18">{children}</main>
+              <Footer />
+            </NextIntlClientProvider>
+          </SessionProvider>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang={locale}>
       <body className="">
-        <NextIntlClientProvider messages={messages}>
-          <Navbar />
-          <main className="min-h-[60dvh] mt-18">{children}</main>
-          <Footer />
-        </NextIntlClientProvider>
+        <SessionProvider session={session}>
+          <NextIntlClientProvider messages={messages}>
+            <Navbar />
+            <main className="min-h-[60dvh] mt-18">{children}</main>
+            <Footer />
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

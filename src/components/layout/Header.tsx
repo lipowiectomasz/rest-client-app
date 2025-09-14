@@ -7,10 +7,8 @@ import { createNavigation } from 'next-intl/navigation';
 import { locales } from '@/i18n/routing';
 import Image from 'next/image';
 import LanguageSelector from '../LanguageSelector';
+import { signOut, useSession } from 'next-auth/react';
 // import ThemeSelector from './ThemeSelector';
-
-// 🔑 NextAuth
-// import { signOut, useSession } from 'next-auth/react';}
 
 const navigation = createNavigation({ locales });
 
@@ -18,7 +16,7 @@ const Navbar = () => {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname?.split('/')[1] || 'en';
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -72,21 +70,24 @@ const Navbar = () => {
           <LanguageSelector />
           {/* <ThemeSelector /> */}
           {/* Auth buttons */}
-          {/* {session ? ( */}
-          <button
-            // onClick={() => signOut()}
-            className="px-4 py-1 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600"
-          >
-            {t('common.signOut')}
-          </button>
-          {/* ) : ( */}
-          <navigation.Link
-            href="/login"
-            className="px-4 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
-          >
-            {t('common.signIn')}
-          </navigation.Link>
-          {/* )} */}
+          {session ? (
+            <button onClick={() => signOut()}>{t('common.signOut')}</button>
+          ) : (
+            <>
+              <navigation.Link
+                href="/signin"
+                className="px-4 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              >
+                {t('common.signIn')}
+              </navigation.Link>
+              <navigation.Link
+                href="/signup"
+                className="px-4 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              >
+                {t('common.signUp')}
+              </navigation.Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

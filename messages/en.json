@@ -13,6 +13,14 @@
     "theme": {
       "light": "Light",
       "dark": "Dark"
+    },
+    "password": "Password",
+    "email": "Email",
+    "name": "Name",
+    "placeholder": {
+      "name": "Provide profile name",
+      "email": "Enter your email address",
+      "password": "Enter password"
     }
   },
   "mainPage": {
@@ -21,6 +29,15 @@
     "history": "History",
     "variables": "Variables"
   },
+
+  "signUp": {
+    "header": "Please register to join our platform."
+  },
+
+  "signIn": {
+    "header": "Please sign in to continue."
+  },
+
   "footer": {
     "text": "Rest Client App. All rights reserved.",
     "builtBy": "Built by"
