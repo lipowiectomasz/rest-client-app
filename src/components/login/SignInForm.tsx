@@ -1,18 +1,18 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { signUp } from '@/actions/auth';
 import { useActionState } from 'react';
 import { usePathname } from 'next/navigation';
 import { AtSymbolIcon, KeyIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
+import { signInWithCredentials } from '@/actions/auth';
 
 export default function SignInForm() {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname?.split('/')[1] || 'en';
 
-  const [state, formAction] = useActionState(signUp, {
+  const [state, formAction] = useActionState(signInWithCredentials, {
     error: null,
   });
 
@@ -22,22 +22,6 @@ export default function SignInForm() {
       <div className="flex-1 rounded-lg bg-gray-5000 px-6 pb-4 pt-6">
         <h1 className="mb-3 text-2x1">{t('signIn.header')}</h1>
         <div className="w-full">
-          <div>
-            <label className="mb-3 mt-5 block text-xs font-medium text-gray-900" htmlFor="email">
-              {t('common.name')}
-            </label>
-            <div className="relative">
-              <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="name"
-                type="text"
-                name="name"
-                placeholder={t('common.placeholder.name')}
-                required
-              />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
           <div>
             <label className="mb-3 mt-5 block text-xs font-medium text-gray-900" htmlFor="email">
               {t('common.email')}
