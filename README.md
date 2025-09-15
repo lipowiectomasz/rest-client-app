@@ -4,6 +4,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 First, run the development server:
 
+copy example.env to .env and fill needed variables
+
+Initialize db:
+
+npx prisma db push
+
 ```bash
 npm run dev
 # or
