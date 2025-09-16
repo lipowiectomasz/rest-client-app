@@ -50,7 +50,9 @@ export default function SignInForm() {
                 name="password"
                 placeholder={t('common.placeholder.password')}
                 required
-                minLength={6}
+                minLength={8}
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':&quot;\\|,.<>/?]).{8,}$"
+                title="Password must be at least 8 characters and include uppercase, lowercase, number, and special character"
               />
               <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
