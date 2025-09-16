@@ -18,27 +18,11 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }>) {
   const { locale } = await params;
   const messages = await getMessages();
   const session = await auth();
-
-  if (!session) {
-    return (
-      <html lang={locale}>
-        <body className="">
-          <SessionProvider>
-            <NextIntlClientProvider messages={messages}>
-              <Navbar />
-              <main className="min-h-[60dvh] mt-18">{children}</main>
-              <Footer />
-            </NextIntlClientProvider>
-          </SessionProvider>
-        </body>
-      </html>
-    );
-  }
 
   return (
     <html lang={locale}>
