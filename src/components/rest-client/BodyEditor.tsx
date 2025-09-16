@@ -1,14 +1,25 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '../ui/Box';
 import { RestClientButtons } from '@/components/rest-client';
 
-export function BodyEditor({ onChange }: { onChange: (body: string) => void }) {
-  const [body, setBody] = useState('');
+export function BodyEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (body: string) => void;
+}) {
+  const [body, setBody] = useState(value ?? '');
+
+  useEffect(() => {
+    setBody(value ?? '');
+  }, [value]);
 
   function prettify() {
     try {
       setBody(JSON.stringify(JSON.parse(body), null, 2));
+      onChange(JSON.stringify(JSON.parse(body), null, 2));
     } catch {
       alert('Invalid JSON');
     }

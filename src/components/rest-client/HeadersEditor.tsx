@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RestClientButtons } from '@/components/rest-client';
 
 interface Header {
@@ -7,11 +7,23 @@ interface Header {
   value: string;
 }
 
-export function HeadersEditor({ onChange }: { onChange: (h: Header[]) => void }) {
-  const [headers, setHeaders] = useState<Header[]>([]);
+export function HeadersEditor({
+  value,
+  onChange,
+}: {
+  value: Header[];
+  onChange: (h: Header[]) => void;
+}) {
+  const [headers, setHeaders] = useState<Header[]>(value ?? []);
+
+  useEffect(() => {
+    setHeaders(value ?? []);
+  }, [value]);
 
   function addHeader() {
-    setHeaders([...headers, { key: '', value: '' }]);
+    const newHeaders = [...headers, { key: '', value: '' }];
+    setHeaders(newHeaders);
+    onChange(newHeaders);
   }
 
   function updateHeader(index: number, field: keyof Header, value: string) {

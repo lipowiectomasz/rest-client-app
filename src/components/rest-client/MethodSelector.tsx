@@ -3,7 +3,13 @@ import { useRouter, usePathname } from 'next/navigation';
 
 const METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
 
-export function MethodSelector({ initialMethod }: { initialMethod: string }) {
+export function MethodSelector({
+  initialMethod,
+  onChange,
+}: {
+  initialMethod: string;
+  onChange?: (method: string) => void;
+}) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -12,6 +18,9 @@ export function MethodSelector({ initialMethod }: { initialMethod: string }) {
     const segments = pathname.split('/');
     segments[segments.length - 1] = newMethod;
     router.replace(segments.join('/'));
+    if (onChange) {
+      onChange(newMethod);
+    }
   }
 
   return (

@@ -1,9 +1,13 @@
 'use client';
 import { b64EncodeUnicode } from '@/app/lib/utils/base64';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export function UrlInput({ onChange }: { onChange: (url: string) => void }) {
-  const [url, setUrl] = useState('');
+export function UrlInput({ value, onChange }: { value: string; onChange: (url: string) => void }) {
+  const [url, setUrl] = useState(value ?? '');
+
+  useEffect(() => {
+    setUrl(value ?? '');
+  }, [value]);
 
   function handleChange(value: string) {
     setUrl(value);
