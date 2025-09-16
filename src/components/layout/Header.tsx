@@ -68,21 +68,25 @@ const Navbar = () => {
         {/* Right side - controls */}
         <div className="flex items-center gap-4">
           <LanguageSelector />
-          {/* <ThemeSelector /> */}
           {/* Auth buttons */}
           {session ? (
-            <button onClick={() => signOut()}>{t('common.signOut')}</button>
+            <button
+              className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              onClick={() => signOut()}
+            >
+              {t('common.logOut')}
+            </button>
           ) : (
             <>
               <navigation.Link
                 href="/signin"
-                className="px-4 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
               >
                 {t('common.signIn')}
               </navigation.Link>
               <navigation.Link
                 href="/signup"
-                className="px-4 py-1 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
               >
                 {t('common.signUp')}
               </navigation.Link>

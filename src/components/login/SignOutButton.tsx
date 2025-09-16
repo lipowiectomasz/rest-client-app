@@ -8,7 +8,7 @@ export default function SignOutButton() {
         await signOut();
       }}
     >
-      <button type="submit">Sign Out</button>
+      <button type="submit">Log Out</button>
     </form>
   );
 }

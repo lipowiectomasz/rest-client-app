@@ -9,7 +9,6 @@ const LanguageSelector = () => {
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations('navigation');
-  const currentLocale = pathname?.split('/')[1] || 'en';
   const [selectedLocale, setSelectedLocale] = useState('');
 
   const getLanguageName = (locale: string) => {
@@ -41,7 +40,7 @@ const LanguageSelector = () => {
       name="languages"
       value={selectedLocale}
       onChange={(e) => handleLanguageChange(e.target.value)}
-      className="px-3 py-2 border border-indigo-200 rounded-md bg-white text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      className="px-3 py-2 text-md border border-indigo-200 rounded-md bg-white text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
     >
       <option value="" disabled>
         {t('language')}
