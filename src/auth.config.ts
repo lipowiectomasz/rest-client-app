@@ -1,6 +1,6 @@
 import type { NextAuthConfig } from 'next-auth';
 
-const PROTECTED = new Set(['rest', 'history', 'variables']);
+const PROTECTED = new Set(['rest', 'rest-client', 'history', 'variables']);
 
 export const authConfig = {
   pages: {
