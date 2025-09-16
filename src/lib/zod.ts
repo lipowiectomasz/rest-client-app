@@ -1,7 +1,6 @@
-import { object, string, refine } from 'zod';
+import { object, string } from 'zod';
 
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{8,}$/;
 
 export const signInSchema = object({
   email: string('Email is required').min(1, 'Email is required').email('Invalid email'),
