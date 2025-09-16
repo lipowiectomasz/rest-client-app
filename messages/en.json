@@ -6,7 +6,7 @@
 
   "common": {
     "signIn": "Sign In",
-    "signOut": "Sign Out",
+    "logOut": "Log Out",
     "signUp": "Sign Up",
     "loading": "Loading...",
     "error": "An error occurred",
@@ -18,18 +18,20 @@
     "email": "Email",
     "name": "Name",
     "placeholder": {
-      "name": "Provide profile name",
+      "name": "Enter your name",
       "email": "Enter your email address",
       "password": "Enter password"
     }
   },
   "mainPage": {
-    "title": "Welcome to the Rest Client app",
+    "title": {
+      "in": "Welcome Back!",
+      "out": "Welcome to the Rest Client App"
+    },
     "subtitle": "Send requests, save your history, and get metrics instantly.",
     "history": "History",
     "variables": "Variables"
   },
-
   "signUp": {
     "header": "Please register to join our platform."
   },
@@ -37,7 +39,10 @@
   "signIn": {
     "header": "Please sign in to continue."
   },
-
+  "restClientPage": {
+    "history": "History",
+    "variables": "Variables"
+  },
   "footer": {
     "text": "Rest Client App. All rights reserved.",
     "builtBy": "Built by"

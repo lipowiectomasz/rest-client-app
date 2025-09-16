@@ -3,26 +3,46 @@
     "home": "Startseite",
     "language": "Sprache auswählen"
   },
-
   "common": {
     "signIn": "Anmelden",
-    "signOut": "Abmelden",
+    "logOut": "Abmelden",
     "signUp": "Registrieren",
     "loading": "Lädt...",
     "error": "Ein Fehler ist aufgetreten",
     "theme": {
       "light": "Hell",
       "dark": "Dunkel"
+    },
+    "password": "Passwort",
+    "email": "E-Mail",
+    "name": "Name",
+    "placeholder": {
+      "name": "Gib deinen Namen ein",
+      "email": "Gib deine E-Mail-Adresse ein",
+      "password": "Passwort eingeben"
     }
   },
   "mainPage": {
-    "title": "Willkommen bei der Rest Client App",
+    "title": {
+      "in": "Willkommen zurück!",
+      "out": "Willkommen bei der Rest Client App"
+    },
     "subtitle": "Sende Anfragen, speichere deinen Verlauf und erhalte sofort Metriken.",
+    "history": "Verlauf",
+    "variables": "Variablen"
+  },
+  "restClientPage": {
     "history": "Verlauf",
     "variables": "Variablen"
   },
   "footer": {
     "text": "Rest Client App. Alle Rechte vorbehalten.",
     "builtBy": "Erstellt von"
+  },
+  "signUp": {
+    "header": "Bitte registrieren Sie sich, um unserer Plattform beizutreten."
+  },
+  "signIn": {
+    "header": "Bitte melden Sie sich an, um fortzufahren."
   }
 }
