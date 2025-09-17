@@ -20,7 +20,8 @@
     "placeholder": {
       "name": "Enter your name",
       "email": "Enter your email address",
-      "password": "Enter password"
+      "password": "Enter password",
+      "confirmPassword": "Confirm password"
     }
   },
   "mainPage": {

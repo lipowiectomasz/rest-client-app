@@ -52,7 +52,7 @@ export default async function Home() {
           <h1 className=" text-3xl">{t('mainPage.title.out')}</h1>
           <h2 className="">{t('mainPage.subtitle')}</h2>
         </section>
-        <section className="flex gap-6 items-center justify-evenly dark:bg-slate-800 bg-slate-100 rounded-b-lg shadow-md shadow-slate-600">
+        <section className="flex gap-6 items-center justify-evenly text-center dark:bg-slate-800 bg-slate-100 rounded-b-lg shadow-md shadow-slate-600">
           <Link
             href="/signup"
             className="hover:bg-slate-50 hover:rounded-bl-lg w-full py-6 dark:hover:bg-slate-900"

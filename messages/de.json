@@ -19,7 +19,8 @@
     "placeholder": {
       "name": "Gib deinen Namen ein",
       "email": "Gib deine E-Mail-Adresse ein",
-      "password": "Passwort eingeben"
+      "password": "Passwort eingeben",
+      "confirmPassword": "Passwort bestätigen"
     }
   },
   "mainPage": {

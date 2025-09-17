@@ -7,16 +7,16 @@ import { createNavigation } from 'next-intl/navigation';
 import { locales } from '@/i18n/routing';
 import Image from 'next/image';
 import LanguageSelector from '../LanguageSelector';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
+import { Session } from 'next-auth';
 // import ThemeSelector from './ThemeSelector';
 
 const navigation = createNavigation({ locales });
 
-const Navbar = () => {
+const Navbar = ({ session }: { session: Session | null }) => {
   const t = useTranslations();
   const pathname = usePathname();
   const locale = pathname?.split('/')[1] || 'en';
-  const { data: session } = useSession();
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -28,6 +28,8 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  console.log(session);
 
   const isActive = (path: string) => pathname === `/${locale}${path}`;
 

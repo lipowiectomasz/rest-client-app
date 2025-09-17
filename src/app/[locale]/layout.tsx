@@ -29,7 +29,7 @@ export default async function RootLayout({
       <body className="">
         <SessionProvider session={session}>
           <NextIntlClientProvider messages={messages}>
-            <Navbar />
+            <Navbar session={session} />
             <main className="min-h-[60dvh] mt-18">{children}</main>
             <Footer />
           </NextIntlClientProvider>

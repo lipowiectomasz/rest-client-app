@@ -56,7 +56,6 @@ export async function signUp(_prev: SignState, formData: FormData): Promise<Sign
     const locale = (formData.get('locale') ?? 'en').toString();
     const email = formData.get('email')?.toString() ?? '';
     const password = formData.get('password')?.toString() ?? '';
-    const name = formData.get('name')?.toString() ?? '';
 
     // Verifica si el usuario ya existe
     const existingUser = await prisma.user.findUnique({
