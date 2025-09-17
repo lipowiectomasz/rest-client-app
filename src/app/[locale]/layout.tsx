@@ -12,13 +12,14 @@ export const metadata: Metadata = {
   description:
     'A modern, lightweight alternative to Postman for testing RESTful APIs. Built with React and Next.js/React Router 7, the app includes authentication, request history, variables, code generation (cURL, JavaScript, Python, etc.), and detailed response handling. Designed for teams, with a clean UI, private routes, and support for internationalization',
 };
+type Params = Promise<{ locale: string }>;
 
 export default async function RootLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Params;
 }>) {
   const { locale } = await params;
   const messages = await getMessages();
