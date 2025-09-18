@@ -3,10 +3,23 @@
 import { useMemo, useState } from 'react';
 import type { HttpRequestSnapshot } from '@/lib/types';
 import { generateCurl } from '@/lib/codegen/curl';
+import { generateJsFetch } from '@/lib/codegen/js-fetch';
+import { generateJsXhr } from '@/lib/codegen/js-xhr';
+import { generateNode } from '@/lib/codegen/node';
+import { generatePython } from '@/lib/codegen/python';
+import { generateJava } from '@/lib/codegen/java';
+import { generateCSharp } from '@/lib/codegen/csharp';
+import { generateGo } from '@/lib/codegen/go';
 
 const GENERATORS = {
   curl: generateCurl,
-  // later: jsFetch, xhr, node, python, java, csharp, go
+  jsFetch: generateJsFetch,
+  xhr: generateJsXhr,
+  node: generateNode,
+  python: generatePython,
+  java: generateJava,
+  csharp: generateCSharp,
+  go: generateGo,
 };
 
 export function CodegenPanel({ request }: { request: HttpRequestSnapshot }) {
@@ -28,7 +41,7 @@ export function CodegenPanel({ request }: { request: HttpRequestSnapshot }) {
             key={key}
             onClick={() => setLang(key as keyof typeof GENERATORS)}
             className={`px-3 py-1 rounded ${
-              lang === key ? 'bg-indigo-500 text-white' : 'bg-gray-200'
+              lang === key ? 'bg-indigo-500 text-white' : 'bg-indigo-300'
             }`}
           >
             {key}
