@@ -9,7 +9,6 @@ import Image from 'next/image';
 import LanguageSelector from '../LanguageSelector';
 import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
-// import ThemeSelector from './ThemeSelector';
 
 const navigation = createNavigation({ locales });
 
@@ -28,8 +27,6 @@ const Navbar = ({ session }: { session: Session | null }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  console.log(session);
 
   const isActive = (path: string) => pathname === `/${locale}${path}`;
 

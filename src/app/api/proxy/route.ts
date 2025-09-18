@@ -17,13 +17,11 @@ export async function POST(req: NextRequest) {
     const t1 = process.hrtime.bigint();
     const durationMs = Number(t1 - t0) / 1_000_000;
 
-    // Medidas básicas (aún no guardamos en DB)
     const requestSize = body
       ? new TextEncoder().encode(typeof body === 'string' ? body : JSON.stringify(body)).length
       : 0;
     const responseSize = new TextEncoder().encode(text).length;
 
-    // Intentar parsear JSON si aplica
     let parsed: unknown = text;
     try {
       parsed = JSON.parse(text);

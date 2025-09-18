@@ -14,7 +14,6 @@ export default async function Home() {
         <div className="max-w-screen-lg mx-auto">
           <section className="w-full px-4 py-16 min-h-100 sm:mt-[15vmax] md:mt-[10vmax] dark:bg-slate-800 bg-slate-50 rounded-t-lg inset-shadow-sm inset-shadow-slate-300 dark:inset-shadow-gray-600">
             <h1 className="text-center text-3xl">{t('mainPage.title.in')} </h1>
-            {/* Mostrar nombre y email */}
             <div className="text-center mt-4">
               <div>{name}</div>
               <div>{email}</div>

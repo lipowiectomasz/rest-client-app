@@ -37,19 +37,15 @@ export async function signInWithCredentials(
 
 export async function signUp(_prev: SignState, formData: FormData): Promise<SignState> {
   try {
-    // Extrae los datos del formulario
     const data = {
       name: formData.get('name'),
       email: formData.get('email'),
       password: formData.get('password'),
       confirmPassword: formData.get('confirmPassword'),
     };
-
-    // Valida los datos con Zod
     const parsed = await signUpSchema.safeParseAsync(data);
 
     if (!parsed.success) {
-      // Retorna el primer error encontrado
       return { error: parsed.error.issues[0]?.message || 'Invalid data' };
     }
 
@@ -57,7 +53,6 @@ export async function signUp(_prev: SignState, formData: FormData): Promise<Sign
     const email = formData.get('email')?.toString() ?? '';
     const password = formData.get('password')?.toString() ?? '';
 
-    // Verifica si el usuario ya existe
     const existingUser = await prisma.user.findUnique({
       where: { email: parsed.data.email },
     });
