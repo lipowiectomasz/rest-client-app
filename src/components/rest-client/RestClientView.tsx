@@ -14,6 +14,7 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { createRestClientActions } from '@/lib/rest-client/restClientActions';
 import { ButtonsBar } from '../ui/ButtonsBar';
 import { useTranslations } from 'next-intl';
+import { CodegenPanel } from '@/components/rest-client/CodegenPanel';
 
 export default function RestClientView({ initial }: { initial: RestClientInitial }) {
   const [method, setMethod] = useState<RestClientInitial['method']>(initial.method);
@@ -63,6 +64,14 @@ export default function RestClientView({ initial }: { initial: RestClientInitial
       <BodyEditor value={body} onChange={setBody} />
 
       <ResponseViewer response={response} />
+      <CodegenPanel
+        request={{
+          method,
+          url,
+          headers,
+          body,
+        }}
+      />
     </div>
   );
 }
