@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { RestClientButtons } from '@/components/rest-client';
 
 interface Header {
   key: string;
@@ -20,12 +19,6 @@ export function HeadersEditor({
     setHeaders(value ?? []);
   }, [value]);
 
-  function addHeader() {
-    const newHeaders = [...headers, { key: '', value: '' }];
-    setHeaders(newHeaders);
-    onChange(newHeaders);
-  }
-
   function updateHeader(index: number, field: keyof Header, value: string) {
     const newHeaders = headers.map((h, i) => (i === index ? { ...h, [field]: value } : h));
     setHeaders(newHeaders);
@@ -40,7 +33,6 @@ export function HeadersEditor({
 
   return (
     <div className="space-y-2">
-      <RestClientButtons onAddHeader={addHeader} />
       {headers.map((header, idx) => (
         <div key={idx} className="flex gap-2 mb-2">
           <input

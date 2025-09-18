@@ -7,11 +7,13 @@ import {
   HeadersEditor,
   BodyEditor,
   ResponseViewer,
-  RestClientButtons,
 } from '@/components/rest-client';
 import { RestClientInitial, Header } from '@/types/restClient';
 import { ProxyResponse } from '@/types/proxy';
-import { b64DecodeUnicode } from '@/app/lib/utils/base64';
+import { usePathname, useRouter } from '@/i18n/navigation';
+import { createRestClientActions } from '@/lib/rest-client/restClientActions';
+import { ButtonsBar } from '../ui/ButtonsBar';
+import { useTranslations } from 'next-intl';
 
 export default function RestClientView({ initial }: { initial: RestClientInitial }) {
   const [method, setMethod] = useState<RestClientInitial['method']>(initial.method);
@@ -20,26 +22,24 @@ export default function RestClientView({ initial }: { initial: RestClientInitial
   const [body, setBody] = useState(initial.body ?? '');
   const [response, setResponse] = useState<ProxyResponse | null>(null);
 
-  async function sendRequest() {
-    try {
-      const decodedUrl = b64DecodeUnicode(url);
-      const res = await fetch('/api/proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          method,
-          url: decodedUrl,
-          headers: Object.fromEntries(headers.map((h) => [h.key, h.value])),
-          body,
-        }),
-      });
+  const t = useTranslations('restClientPage');
 
-      const data: ProxyResponse = await res.json();
-      setResponse(data);
-    } catch (err) {
-      setResponse({ error: err instanceof Error ? err.message : String(err) });
-    }
-  }
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const { sendRequest, addHeader, prettify } = createRestClientActions({
+    method,
+    url,
+    headers,
+    body,
+    setHeaders,
+    setBody,
+    setResponse,
+    onChangeHeaders: setHeaders,
+    onChangeBody: setBody,
+    router,
+    pathname,
+  });
 
   return (
     <div className="max-w-screen-lg mx-auto">
@@ -51,9 +51,16 @@ export default function RestClientView({ initial }: { initial: RestClientInitial
       </div>
 
       <HeadersEditor value={headers} onChange={setHeaders} />
-      <BodyEditor value={body} onChange={setBody} />
 
-      <RestClientButtons onSendRequest={sendRequest} />
+      <ButtonsBar
+        buttons={[
+          { label: t('buttons.sendRequest'), onClick: sendRequest, variant: 'group' },
+          { label: 'Prettify', onClick: prettify, variant: 'group' },
+          { label: t('buttons.addHeader'), onClick: addHeader, variant: 'group' },
+        ]}
+      />
+
+      <BodyEditor value={body} onChange={setBody} />
 
       <ResponseViewer response={response} />
     </div>

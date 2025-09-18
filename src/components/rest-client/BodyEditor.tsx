@@ -1,7 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Box from '../ui/Box';
-import { RestClientButtons } from '@/components/rest-client';
 
 export function BodyEditor({
   value,
@@ -15,15 +14,6 @@ export function BodyEditor({
   useEffect(() => {
     setBody(value ?? '');
   }, [value]);
-
-  function prettify() {
-    try {
-      setBody(JSON.stringify(JSON.parse(body), null, 2));
-      onChange(JSON.stringify(JSON.parse(body), null, 2));
-    } catch {
-      alert('Invalid JSON');
-    }
-  }
 
   return (
     <div>
@@ -53,7 +43,6 @@ export function BodyEditor({
           className="w-full min-h-[150px] px-2 pt-2 border-none focus:outline-none "
         />
       </Box>
-      <RestClientButtons onPrettify={prettify} />
     </div>
   );
 }

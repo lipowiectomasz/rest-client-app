@@ -14,7 +14,6 @@ export function MethodSelector({
   const pathname = usePathname();
 
   function handleChange(newMethod: string) {
-    // cambia solo el último segmento de la URL
     const segments = pathname.split('/');
     segments[segments.length - 1] = newMethod;
     router.replace(segments.join('/'));
@@ -28,7 +27,7 @@ export function MethodSelector({
       name="methods"
       value={initialMethod}
       onChange={(e) => handleChange(e.target.value)}
-      className="dark:bg-slate-800 bg-slate-100 rounded-b-lg shadow-sm shadow-indigo-600 px-3 py-2 my-2 text-md border border-indigo-200 rounded-md text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      className="dark:bg-slate-800 bg-slate-100 shadow-sm shadow-indigo-600 px-3 py-2 my-2 text-md border border-indigo-200 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
     >
       {METHODS.map((m) => (
         <option key={m} value={m}>
