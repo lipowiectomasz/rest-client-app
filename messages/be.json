@@ -34,7 +34,11 @@
   },
   "restClientPage": {
     "history": "Гісторыя",
-    "variables": "Пераменныя"
+    "variables": "Пераменныя",
+    "buttons": {
+      "sendRequest": "Адправіць запыт",
+      "addHeader": "Дадаць загаловак"
+    }
   },
   "footer": {
     "text": "Rest Client App. Усе правы абаронены.",

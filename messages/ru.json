@@ -34,7 +34,11 @@
   },
   "restClientPage": {
     "history": "История",
-    "variables": "Переменные"
+    "variables": "Переменные",
+    "buttons": {
+      "sendRequest": "Отправить запрос",
+      "addHeader": "Добавить заголовок"
+    }
   },
   "footer": {
     "text": "Rest Client App. Все права защищены.",

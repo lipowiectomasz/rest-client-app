@@ -34,7 +34,11 @@
   },
   "restClientPage": {
     "history": "Historial",
-    "variables": "Variables"
+    "variables": "Variables",
+    "buttons": {
+      "sendRequest": "Enviar solicitud",
+      "addHeader": "Agregar encabezado"
+    }
   },
   "footer": {
     "text": "Rest Client App. Todos los derechos reservados.",
