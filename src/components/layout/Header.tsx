@@ -53,16 +53,31 @@ const Navbar = ({ session }: { session: Session | null }) => {
             />
           </navigation.Link>
 
-          <navigation.Link
-            href="/"
-            className={`text-lg font-bold transition-colors ${
-              isActive('')
-                ? 'underline underline-offset-4 text-purple-900'
-                : 'hover:text-purple-500'
-            }`}
-          >
-            {t('navigation.home')}
-          </navigation.Link>
+          {session && (
+            <navigation.Link
+              href="/"
+              className={`text-lg font-bold transition-colors ${
+                isActive('')
+                  ? 'underline underline-offset-4 text-purple-900'
+                  : 'hover:text-purple-500'
+              }`}
+            >
+              {t('navigation.home')}
+            </navigation.Link>
+          )}
+
+          {session && (
+            <navigation.Link
+              href="/history"
+              className={`text-lg font-bold transition-colors ${
+                isActive('/history')
+                  ? 'underline underline-offset-4 text-purple-900'
+                  : 'hover:text-purple-500'
+              }`}
+            >
+              {t('navigation.history')}
+            </navigation.Link>
+          )}
         </div>
         {/* Right side - controls */}
         <div className="flex items-center gap-4">

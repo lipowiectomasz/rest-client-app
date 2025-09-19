@@ -1,6 +1,8 @@
 {
   "navigation": {
     "home": "Home",
+    "history": "History",
+    "variables": "Variables",
     "language": "Select Language"
   },
 
