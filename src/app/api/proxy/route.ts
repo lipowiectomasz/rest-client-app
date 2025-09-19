@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(req: NextRequest) {
   let payload: unknown;
@@ -31,6 +33,12 @@ export async function POST(req: NextRequest) {
 
   if (typeof method !== 'string') {
     return NextResponse.json({ error: 'Invalid HTTP method' }, { status: 400 });
+  }
+
+  // Check authentication
+  const session = await auth();
+  if (!session?.user?.email) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const safeHeaders: Record<string, string> = {};
@@ -67,6 +75,32 @@ export async function POST(req: NextRequest) {
     try {
       parsed = JSON.parse(text);
     } catch {}
+
+    // Save request to history
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+      });
+
+      if (user) {
+        await prisma.requestHistory.create({
+          data: {
+            userId: user.id,
+            method,
+            url,
+            statusCode: fetchRes.status,
+            duration: Math.round(durationMs),
+            requestSize,
+            responseSize,
+            error: !fetchRes.ok ? fetchRes.statusText : null,
+            headers: JSON.stringify(safeHeaders),
+            body: body ? (typeof body === 'string' ? body : JSON.stringify(body)) : null,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Failed to save request history:', error);
+    }
 
     return NextResponse.json(
       {

@@ -4,7 +4,12 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
-export default async function HistoryPage() {
+function encodeForUrl(str: string): string {
+  return Buffer.from(str).toString('base64');
+}
+
+export default async function HistoryPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const session = await auth();
 
   if (!session?.user?.email) {
@@ -38,7 +43,10 @@ export default async function HistoryPage() {
       {requests.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-xl text-gray-600 mb-4">{t('emptyState.message')}</p>
-          <Link href="/rest-client" className="text-indigo-600 hover:text-indigo-800 font-medium">
+          <Link
+            href={`/${locale}/rest-client`}
+            className="text-indigo-600 hover:text-indigo-800 font-medium"
+          >
             {t('emptyState.cta')}
           </Link>
         </div>
@@ -68,55 +76,100 @@ export default async function HistoryPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {requests.map((request) => (
-                <tr key={request.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        request.method === 'GET'
-                          ? 'bg-green-100 text-green-800'
-                          : request.method === 'POST'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : request.method === 'PUT'
-                              ? 'bg-blue-100 text-blue-800'
-                              : request.method === 'DELETE'
-                                ? 'bg-red-100 text-red-800'
-                                : 'bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      {request.method}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-xs">
-                    {request.url}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        request.statusCode && request.statusCode >= 200 && request.statusCode < 300
-                          ? 'bg-green-100 text-green-800'
-                          : request.statusCode && request.statusCode >= 400
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      {request.statusCode || 'N/A'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{request.duration}ms</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {request.createdAt.toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <Link
-                      href={`/rest-client?historyId=${request.id}`}
-                      className="text-indigo-600 hover:text-indigo-900"
-                    >
-                      {t('table.view')}
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+              {requests.map((request) => {
+                // Encode the URL and body for the REST client URL
+                const encodedUrl = encodeForUrl(request.url);
+                const encodedBody = request.body ? encodeForUrl(request.body) : null;
+
+                // Parse headers and create query parameters
+                let headersQuery = '';
+                try {
+                  const headersObj = JSON.parse(request.headers);
+                  const queryParams = new URLSearchParams();
+
+                  Object.entries(headersObj).forEach(([key, value]) => {
+                    if (value && typeof value === 'string') {
+                      queryParams.append(key, value);
+                    }
+                  });
+
+                  headersQuery = queryParams.toString();
+                } catch (error) {
+                  console.error('Failed to parse headers:', error);
+                }
+
+                // Build the REST client URL
+                let restClientUrl = `/${locale}/rest-client/${request.method}/${encodedUrl}`;
+                if (encodedBody) {
+                  restClientUrl += `/${encodedBody}`;
+                }
+                if (headersQuery) {
+                  restClientUrl += `?${headersQuery}`;
+                }
+
+                return (
+                  <tr
+                    key={request.id}
+                    className="hover:bg-indigo-50 transition-colors duration-150"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          request.method === 'GET'
+                            ? 'bg-green-100 text-green-800'
+                            : request.method === 'POST'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : request.method === 'PUT'
+                                ? 'bg-blue-100 text-blue-800'
+                                : request.method === 'DELETE'
+                                  ? 'bg-red-100 text-red-800'
+                                  : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {request.method}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-xs">
+                      <Link
+                        href={restClientUrl}
+                        className="text-indigo-600 hover:text-indigo-800 font-medium"
+                        title={request.url}
+                      >
+                        {request.url}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          request.statusCode &&
+                          request.statusCode >= 200 &&
+                          request.statusCode < 300
+                            ? 'bg-green-100 text-green-800'
+                            : request.statusCode && request.statusCode >= 400
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {request.statusCode || 'N/A'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                      {request.duration}ms
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                      {request.createdAt.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <Link
+                        href={restClientUrl}
+                        className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md bg-indigo-50 hover:bg-indigo-100 transition-colors"
+                      >
+                        {t('table.view')}
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
