@@ -18,6 +18,7 @@ export function UrlInput({ value, onChange }: { value: string; onChange: (url: s
       id="url-input"
       name="url"
       type="text"
+      required
       value={url}
       onChange={(e) => handleChange(e.target.value)}
       placeholder="https://api.example.com"

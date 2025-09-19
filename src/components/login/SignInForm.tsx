@@ -1,26 +1,54 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useActionState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { AtSymbolIcon, KeyIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
-import { signInWithCredentials } from '@/actions/auth';
 import { PASSWORD_PATTERN } from '@/lib/regex';
 
 export default function SignInForm() {
   const t = useTranslations();
-  const pathname = usePathname();
-  const locale = pathname?.split('/')[1] || 'en';
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
 
-  const [state, formAction] = useActionState(signInWithCredentials, {
-    error: null,
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError(result.error);
+      } else if (result?.ok) {
+        router.push(callbackUrl);
+        router.refresh();
+      }
+    } catch (error) {
+      setError('An unexpected error occurred');
+      console.warn(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <form className="max-w-screen-lg mx-auto" action={formAction}>
-      <input type="hidden" name="locale" value={locale} />
-
+    <form className="max-w-screen-lg mx-auto" onSubmit={handleSubmit}>
       <div className="flex-1 rounded-lg px-6 pb-4 pt-6">
         <h1 className="mb-3 text-2xl">{t('signIn.header')}</h1>
 
@@ -64,14 +92,18 @@ export default function SignInForm() {
         </div>
         <div className="mt-8">
           {/* Submit */}
-          <button className="mt-4 flex w-40 items-center justify-center gap-2 rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
-            {t('common.signIn')}
-            <ArrowRightIcon className="h-5 w-5 text-gray-50" />
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="mt-4 flex w-40 items-center justify-center gap-2 rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700 disabled:opacity-50"
+          >
+            {isLoading ? t('common.loading') : t('common.signIn')}
+            {!isLoading && <ArrowRightIcon className="h-5 w-5 text-gray-50" />}
           </button>
         </div>
       </div>
 
-      {state.error && <p className="text-red-600 mt-2">{state.error}</p>}
+      {error && <p className="text-red-600 mt-2">{error}</p>}
     </form>
   );
 }
