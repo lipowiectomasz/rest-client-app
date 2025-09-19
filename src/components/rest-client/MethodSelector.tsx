@@ -1,6 +1,4 @@
 'use client';
-import { useRouter, usePathname } from 'next/navigation';
-
 const METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
 
 export function MethodSelector({
@@ -10,13 +8,7 @@ export function MethodSelector({
   initialMethod: string;
   onChange?: (method: string) => void;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-
   function handleChange(newMethod: string) {
-    const segments = pathname.split('/');
-    segments[segments.length - 1] = newMethod;
-    router.replace(segments.join('/'));
     if (onChange) {
       onChange(newMethod);
     }
