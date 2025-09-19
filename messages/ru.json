@@ -38,6 +38,12 @@
     "buttons": {
       "sendRequest": "Отправить запрос",
       "addHeader": "Добавить заголовок"
+    },
+    "text": {
+      "status": "Статус",
+      "error": "Ошибка",
+      "response": "Ответ",
+      "noResponse": "Ответ ещё не получен."
     }
   },
   "footer": {

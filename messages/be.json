@@ -38,6 +38,12 @@
     "buttons": {
       "sendRequest": "Адправіць запыт",
       "addHeader": "Дадаць загаловак"
+    },
+    "text": {
+      "status": "Статус",
+      "error": "Памылка",
+      "response": "Адказ",
+      "noResponse": "Адказ яшчэ не атрыманы."
     }
   },
   "footer": {

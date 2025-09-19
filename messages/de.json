@@ -38,6 +38,12 @@
     "buttons": {
       "sendRequest": "Anfrage senden",
       "addHeader": "Header hinzufügen"
+    },
+    "text": {
+      "status": "Status",
+      "error": "Fehler",
+      "response": "Antwort",
+      "noResponse": "Noch keine Antwort."
     }
   },
   "footer": {

@@ -46,6 +46,12 @@
     "buttons": {
       "sendRequest": "Send Request",
       "addHeader": "Add Header"
+    },
+    "text": {
+      "status": "Status",
+      "error": "Error",
+      "response": "Response",
+      "noResponse": "No response yet."
     }
   },
   "footer": {
