@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { b64EncodeUnicode, b64DecodeUnicode } from '@/app/lib/utils/base64';
 import { ProxyResponse } from '@/types/proxy';
@@ -24,6 +24,50 @@ export function useRestClientRequest() {
   const [response, setResponse] = useState<ProxyResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const runRequest = useCallback(
+    async (method: HttpMethod, url: string, body: string, headers: Header[]) => {
+      setLoading(true);
+      setError(null);
+      setResponse(null);
+      try {
+        const variables = loadVariables();
+        const urlWithVars = replaceVariables(url, variables);
+        const bodyWithVars = replaceVariables(body, variables);
+        const headersWithVars = replaceVariablesInHeaders(headers, variables);
+        const payload: {
+          method: HttpMethod;
+          url: string;
+          headers: Record<string, string>;
+          body?: string;
+        } = {
+          method,
+          url: urlWithVars,
+          headers: Object.fromEntries(headersWithVars.map((h) => [h.key, h.value])),
+        };
+        if (
+          bodyWithVars &&
+          bodyWithVars.trim() !== '' &&
+          (method as string) !== 'GET' &&
+          (method as string) !== 'HEAD'
+        ) {
+          payload.body = bodyWithVars;
+        }
+        const res = await fetch('/api/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': bodyContentType },
+          body: JSON.stringify(payload),
+        });
+        const data: ProxyResponse = await res.json();
+        setResponse(data);
+      } catch {
+        setError('Error sending request');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [bodyContentType],
+  );
 
   useEffect(() => {
     const path = pathname.split('/').filter(Boolean);
@@ -54,48 +98,7 @@ export function useRestClientRequest() {
         setError('Error decoding URL');
       }
     }
-  }, [pathname, searchParams]);
-
-  async function runRequest(method: HttpMethod, url: string, body: string, headers: Header[]) {
-    setLoading(true);
-    setError(null);
-    setResponse(null);
-    try {
-      const variables = loadVariables();
-      const urlWithVars = replaceVariables(url, variables);
-      const bodyWithVars = replaceVariables(body, variables);
-      const headersWithVars = replaceVariablesInHeaders(headers, variables);
-      const payload: {
-        method: HttpMethod;
-        url: string;
-        headers: Record<string, string>;
-        body?: string;
-      } = {
-        method,
-        url: urlWithVars,
-        headers: Object.fromEntries(headersWithVars.map((h) => [h.key, h.value])),
-      };
-      if (
-        bodyWithVars &&
-        bodyWithVars.trim() !== '' &&
-        (method as string) !== 'GET' &&
-        (method as string) !== 'HEAD'
-      ) {
-        payload.body = bodyWithVars;
-      }
-      const res = await fetch('/api/proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': bodyContentType },
-        body: JSON.stringify(payload),
-      });
-      const data: ProxyResponse = await res.json();
-      setResponse(data);
-    } catch {
-      setError('Error sending request');
-    } finally {
-      setLoading(false);
-    }
-  }
+  }, [pathname, searchParams, runRequest]);
 
   function sendRequest() {
     const encodedUrl = b64EncodeUnicode(url);
