@@ -8,9 +8,10 @@ interface ButtonConfig {
 
 interface ButtonsBarProps {
   buttons: ButtonConfig[];
+  children?: React.ReactNode;
 }
 
-export function ButtonsBar({ buttons }: ButtonsBarProps) {
+export function ButtonsBar({ buttons, children }: ButtonsBarProps) {
   const baseStyles = 'px-4 py-2 font-medium transition focus:outline-none w-full rounded-md';
 
   const variants = {
@@ -22,7 +23,7 @@ export function ButtonsBar({ buttons }: ButtonsBarProps) {
   };
 
   return (
-    <div className="flex items-center justify-evenly overflow-hidden bg-white">
+    <div className="flex items-center justify-evenly bg-slate-200 overflow-hidden gap-1 my-1 px-1 rounded-md">
       {buttons.map((btn, idx) => (
         <button
           key={idx}
@@ -32,6 +33,7 @@ export function ButtonsBar({ buttons }: ButtonsBarProps) {
           {btn.label}
         </button>
       ))}
+      {children}
     </div>
   );
 }
