@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import DeleteButton from '@/components/ui/DeleteButton';
 
 function encodeForUrl(str: string): string {
   return Buffer.from(str).toString('base64');
@@ -35,6 +36,11 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
   }
 
   const { requests } = user;
+
+  const handleDelete = async (id: string) => {
+    'use server';
+    redirect(`/${locale}/history?refresh=${Date.now()}`);
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -108,10 +114,7 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
                 }
 
                 return (
-                  <tr
-                    key={request.id}
-                    className="hover:bg-indigo-50 transition-colors duration-150"
-                  >
+                  <tr key={request.id} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -160,12 +163,15 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
                       {request.createdAt.toLocaleString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <Link
-                        href={restClientUrl}
-                        className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md bg-indigo-50 hover:bg-indigo-100 transition-colors"
-                      >
-                        {t('table.view')}
-                      </Link>
+                      <div className="flex items-center space-x-2">
+                        <Link
+                          href={restClientUrl}
+                          className="text-indigo-600 hover:text-indigo-900 px-3 py-1 rounded-md bg-indigo-50 hover:bg-indigo-100 transition-colors"
+                        >
+                          {t('table.view')}
+                        </Link>
+                        <DeleteButton historyId={request.id} onDelete={handleDelete} />
+                      </div>
                     </td>
                   </tr>
                 );
