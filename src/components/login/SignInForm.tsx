@@ -6,7 +6,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { AtSymbolIcon, KeyIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
-import { PASSWORD_PATTERN } from '@/lib/regex';
+import { signInSchema } from '@/lib/zod';
+import { ZodError } from 'zod';
 
 export default function SignInForm() {
   const t = useTranslations();
@@ -15,18 +16,20 @@ export default function SignInForm() {
   const callbackUrl = searchParams.get('callbackUrl') || '/';
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null);
+    setErrors({});
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
     try {
+      signInSchema.parse({ email, password });
+
       const result = await signIn('credentials', {
         email,
         password,
@@ -34,14 +37,25 @@ export default function SignInForm() {
       });
 
       if (result?.error) {
-        setError(result.error);
+        setErrors({ general: 'Invalid email or password' });
       } else if (result?.ok) {
         router.push(callbackUrl);
         router.refresh();
       }
     } catch (error) {
-      setError('An unexpected error occurred');
-      console.warn(error);
+      if (error instanceof ZodError) {
+        const fieldErrors: Partial<Record<'email' | 'password', string>> = {};
+        error.issues.forEach((issue) => {
+          const key = issue.path[0];
+          if (key === 'email' || key === 'password') {
+            fieldErrors[key] = issue.message;
+          }
+        });
+        setErrors(fieldErrors);
+      } else {
+        setErrors({ general: 'An unexpected error occurred' });
+        console.warn(error);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -64,10 +78,13 @@ export default function SignInForm() {
               name="email"
               placeholder={t('common.placeholder.email')}
               required
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className={`peer block w-full rounded-md border py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 ${
+                errors.email ? 'border-red-500' : 'border-gray-200'
+              }`}
             />
             <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-white" />
           </div>
+          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
         </div>
 
         {/* Password */}
@@ -83,12 +100,14 @@ export default function SignInForm() {
               placeholder={t('common.placeholder.password')}
               required
               minLength={8}
-              pattern={PASSWORD_PATTERN}
               title="Password must be at least 8 characters and include uppercase, lowercase, number, and special character"
-              className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+              className={`peer block w-full rounded-md border py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 ${
+                errors.password ? 'border-red-500' : 'border-gray-200'
+              }`}
             />
             <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-white" />
           </div>
+          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
         </div>
         <div className="mt-8">
           {/* Submit */}
@@ -103,7 +122,7 @@ export default function SignInForm() {
         </div>
       </div>
 
-      {error && <p className="text-red-600 mt-2">{error}</p>}
+      {errors.general && <p className="text-red-600 mt-2">{errors.general}</p>}
     </form>
   );
 }

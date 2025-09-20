@@ -55,14 +55,14 @@ const Navbar = ({ session }: { session: Session | null }) => {
 
           {session && (
             <navigation.Link
-              href="/"
+              href="/rest-client"
               className={`text-lg font-bold transition-colors ${
                 isActive('')
                   ? 'underline underline-offset-4 text-purple-900'
                   : 'hover:text-purple-500'
               }`}
             >
-              {t('navigation.home')}
+              {t('navigation.rest-client')}
             </navigation.Link>
           )}
 
@@ -85,7 +85,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
           {/* Auth buttons */}
           {session ? (
             <button
-              className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 cursor-pointer"
               onClick={() => signOut()}
             >
               {t('common.logOut')}
