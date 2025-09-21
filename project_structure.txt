@@ -1,0 +1,145 @@
+.
+├── .env
+├── eslint.config.mjs
+├── example.env
+├── .gitignore
+├── .husky
+│   ├── _
+│   │   ├── applypatch-msg
+│   │   ├── commit-msg
+│   │   ├── .gitignore
+│   │   ├── h
+│   │   ├── husky.sh
+│   │   ├── post-applypatch
+│   │   ├── post-checkout
+│   │   ├── post-commit
+│   │   ├── post-merge
+│   │   ├── post-rewrite
+│   │   ├── pre-applypatch
+│   │   ├── pre-auto-gc
+│   │   ├── pre-commit
+│   │   ├── pre-merge-commit
+│   │   ├── prepare-commit-msg
+│   │   ├── pre-push
+│   │   └── pre-rebase
+│   ├── pre-commit
+│   └── pre-push
+├── messages
+│   ├── be.json
+│   ├── de.json
+│   ├── en.json
+│   ├── es.json
+│   └── ru.json
+├── next.config.ts
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+├── .prettierignore
+├── .prettierrc
+├── prisma
+│   ├── dev.db
+│   └── schema.prisma
+├── project_structure.txt
+├── public
+│   ├── file.svg
+│   ├── images
+│   │   ├── avatars
+│   │   │   ├── default.jpg
+│   │   │   ├── fasolll.jpeg
+│   │   │   └── kattrr.jpeg
+│   │   ├── icons
+│   │   │   └── globe.svg
+│   │   └── logos
+│   │       └── rss-logo.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── src
+│   ├── actions
+│   │   └── auth.ts
+│   ├── app
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   └── [...nextauth]
+│   │   │   │       └── route.ts
+│   │   │   └── proxy
+│   │   │       └── route.ts
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── lib
+│   │   │   └── utils
+│   │   │       └── base64.ts
+│   │   └── [locale]
+│   │       ├── (authenticaton)
+│   │       │   ├── signin
+│   │       │   │   └── page.tsx
+│   │       │   └── signup
+│   │       │       └── page.tsx
+│   │       ├── error
+│   │       │   └── page.tsx
+│   │       ├── layout.tsx
+│   │       ├── page.tsx
+│   │       ├── rest
+│   │       │   └── page.tsx
+│   │       └── rest-client
+│   │           ├── page.tsx
+│   │           └── [...params]
+│   │               └── page.tsx
+│   ├── auth.config.ts
+│   ├── auth.ts
+│   ├── components
+│   │   ├── LanguageSelector.tsx
+│   │   ├── layout
+│   │   │   ├── Footer.tsx
+│   │   │   └── Header.tsx
+│   │   ├── login
+│   │   │   ├── SignInForm.tsx
+│   │   │   ├── SignOutButton.tsx
+│   │   │   └── SignUpForm.tsx
+│   │   ├── rest-client
+│   │   │   ├── BodyEditor.tsx
+│   │   │   ├── CodegenPanel.tsx
+│   │   │   ├── HeadersEditor.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── MethodSelector.tsx
+│   │   │   ├── ResponseViewer.tsx
+│   │   │   └── UrlInput.tsx
+│   │   └── ui
+│   │       ├── Box.tsx
+│   │       └── ButtonsBar.tsx
+│   ├── data
+│   │   └── commonHeaderKeys.ts
+│   ├── i18n
+│   │   ├── navigation.ts
+│   │   ├── request.ts
+│   │   └── routing.ts
+│   ├── lib
+│   │   ├── codegen
+│   │   │   ├── csharp.ts
+│   │   │   ├── curl.ts
+│   │   │   ├── go.ts
+│   │   │   ├── java.ts
+│   │   │   ├── js-fetch.ts
+│   │   │   ├── js-xhr.ts
+│   │   │   ├── node.ts
+│   │   │   └── python.ts
+│   │   ├── prisma.ts
+│   │   ├── regex.ts
+│   │   ├── rest-client
+│   │   │   ├── addEmptyHeader.ts
+│   │   │   ├── prettifyJson.ts
+│   │   │   └── useRestClientRequest.ts
+│   │   ├── types.ts
+│   │   └── zod.ts
+│   ├── middleware.ts
+│   └── types
+│       ├── proxy.ts
+│       └── restClient.ts
+├── tsconfig.json
+├── tsconfig.test.json
+├── vitest.config.ts
+└── vitest.setup.ts
+
+38 directories, 105 files

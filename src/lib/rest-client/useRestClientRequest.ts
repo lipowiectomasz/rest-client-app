@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { b64EncodeUnicode, b64DecodeUnicode } from '@/app/lib/utils/base64';
 import { ProxyResponse } from '@/types/proxy';
@@ -15,6 +15,7 @@ export function useRestClientRequest() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const initializedRef = useRef(false);
 
   const [method, setMethod] = useState<HttpMethod>('GET');
   const [url, setUrl] = useState('');
@@ -35,6 +36,7 @@ export function useRestClientRequest() {
         const urlWithVars = replaceVariables(url, variables);
         const bodyWithVars = replaceVariables(body, variables);
         const headersWithVars = replaceVariablesInHeaders(headers, variables);
+
         const payload: {
           method: HttpMethod;
           url: string;
@@ -45,6 +47,7 @@ export function useRestClientRequest() {
           url: urlWithVars,
           headers: Object.fromEntries(headersWithVars.map((h) => [h.key, h.value])),
         };
+
         if (
           bodyWithVars &&
           bodyWithVars.trim() !== '' &&
@@ -53,6 +56,7 @@ export function useRestClientRequest() {
         ) {
           payload.body = bodyWithVars;
         }
+
         const res = await fetch('/api/proxy', {
           method: 'POST',
           headers: { 'Content-Type': bodyContentType },
@@ -70,30 +74,43 @@ export function useRestClientRequest() {
   );
 
   useEffect(() => {
+    // Skip if already initialized or if there's no URL to process
+    if (initializedRef.current) return;
+
     const path = pathname.split('/').filter(Boolean);
     const restIdx = path.indexOf('rest-client');
     if (restIdx !== -1 && path.length > restIdx + 1) {
       const method = path[restIdx + 1] as HttpMethod;
       const encodedUrl = path[restIdx + 2];
-      const encodedBody = path[restIdx + 3];
+
+      // Only process if we have a URL
+      if (!encodedUrl) return;
+
       try {
         setMethod(method);
-        setUrl(encodedUrl ? b64DecodeUnicode(encodedUrl) : '');
-        setBody(encodedBody ? b64DecodeUnicode(encodedBody) : '');
+        setUrl(b64DecodeUnicode(encodedUrl));
+
+        // Handle body if present
+        const encodedBody = path[restIdx + 3];
+        if (encodedBody) {
+          setBody(b64DecodeUnicode(encodedBody));
+        }
+
+        // Handle headers
         const headersArr: Header[] = [];
         searchParams.forEach((value, key) => {
           headersArr.push({ key, value: Array.isArray(value) ? value[0] : (value ?? '') });
         });
         setHeaders(headersArr);
 
-        if (encodedUrl) {
-          runRequest(
-            method,
-            b64DecodeUnicode(encodedUrl),
-            encodedBody ? b64DecodeUnicode(encodedBody) : '',
-            headersArr,
-          );
-        }
+        // Mark as initialized and run the request
+        initializedRef.current = true;
+        runRequest(
+          method,
+          b64DecodeUnicode(encodedUrl),
+          encodedBody ? b64DecodeUnicode(encodedBody) : '',
+          headersArr,
+        );
       } catch {
         setError('Error decoding URL');
       }
@@ -124,8 +141,11 @@ export function useRestClientRequest() {
     if (query.toString()) {
       route += `?${query.toString()}`;
     }
+
+    // Reset initialization state before navigation
+    initializedRef.current = false;
     router.replace(route, { scroll: false });
-    runRequest(method, url, body, headers);
+    // runRequest(method, url, body, headers);
   }
 
   function addHeader() {

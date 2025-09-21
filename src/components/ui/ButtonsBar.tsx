@@ -19,7 +19,7 @@ export function ButtonsBar({ buttons, children }: ButtonsBarProps) {
     secondary: 'bg-gray-300 text-gray-800 hover:bg-gray-400',
     success: 'bg-green-500 text-white hover:bg-green-600',
     group:
-      'my-2 dark:bg-slate-800 bg-slate-100 hover:bg-indigo-200 border border-indigo-200 text-indigo-600 focus:ring-2 focus:ring-indigo-500',
+      'my-2 dark:bg-slate-800 bg-slate-100 hover:bg-indigo-200 border border-indigo-200 text-indigo-600 focus:ring-2 focus:ring-indigo-500 cursor-pointer',
   };
 
   return (

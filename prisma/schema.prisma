@@ -14,4 +14,25 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  requests  RequestHistory[]
+}
+
+model RequestHistory {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  method       String
+  url          String
+  statusCode   Int?
+  duration     Int
+  requestSize  Int?
+  responseSize Int?
+  error        String?
+  headers      String
+  body         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
 }

@@ -1,6 +1,8 @@
 {
   "navigation": {
-    "home": "Home",
+    "rest-client": "Rest Client",
+    "history": "History",
+    "variables": "Variables",
     "language": "Select Language"
   },
 
@@ -57,5 +59,22 @@
   "footer": {
     "text": "Rest Client App. All rights reserved.",
     "builtBy": "Built by"
+  },
+
+  "historyPage": {
+    "title": "Request History",
+    "emptyState": {
+      "message": "You haven't executed any requests yet",
+      "cta": "Make your first request"
+    },
+    "table": {
+      "method": "Method",
+      "url": "URL",
+      "status": "Status",
+      "duration": "Duration",
+      "timestamp": "Timestamp",
+      "actions": "Actions",
+      "view": "View"
+    }
   }
 }

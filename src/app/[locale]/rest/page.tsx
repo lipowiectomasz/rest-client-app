@@ -1,11 +1,13 @@
 import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
 export default async function RestPage() {
   const session = await auth();
 
-  console.log('session', session);
-
-  if (!session) return null;
+  // if (!session) return null;
+  if (!session) {
+    redirect('/signin');
+  }
 
   return (
     <>

@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className="">
-        <SessionProvider session={session}>
+        <SessionProvider session={session} refetchOnWindowFocus={true}>
           <NextIntlClientProvider messages={messages}>
             <Navbar session={session} />
             <main className="min-h-[60dvh] mt-18">{children}</main>
