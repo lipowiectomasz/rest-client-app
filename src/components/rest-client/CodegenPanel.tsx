@@ -10,6 +10,7 @@ import { generatePython } from '@/lib/codegen/python';
 import { generateJava } from '@/lib/codegen/java';
 import { generateCSharp } from '@/lib/codegen/csharp';
 import { generateGo } from '@/lib/codegen/go';
+import type { Variable } from '@/lib/variables/variablesStorage';
 
 const GENERATORS = {
   curl: generateCurl,
@@ -22,16 +23,22 @@ const GENERATORS = {
   go: generateGo,
 };
 
-export function CodegenPanel({ request }: { request: HttpRequestSnapshot }) {
+export function CodegenPanel({
+  request,
+  variables = [],
+}: {
+  request: HttpRequestSnapshot;
+  variables?: Variable[];
+}) {
   const [lang, setLang] = useState<keyof typeof GENERATORS>('curl');
 
   const code = useMemo(() => {
     try {
-      return GENERATORS[lang](request);
+      return GENERATORS[lang](request, variables);
     } catch {
       return '// Not enough details to generate code';
     }
-  }, [request, lang]);
+  }, [request, variables, lang]);
 
   return (
     <div className="mt-6 border rounded bg-gray-50 p-4">

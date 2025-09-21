@@ -1,16 +1,20 @@
 import { HttpRequestSnapshot } from '../types';
+import type { Variable } from '@/lib/variables/variablesStorage';
+import { applyVariablesToRequest } from './applyVariables';
 
-export function generateNode(req: HttpRequestSnapshot): string {
-  const url = new URL(req.url);
+export function generateNode(req: HttpRequestSnapshot, vars: Variable[] = []): string {
+  const r = applyVariablesToRequest(req, vars);
+  const url = new URL(r.url);
+
   return `const https = require("https");
 
 const options = {
   hostname: "${url.hostname}",
   port: ${url.port || 443},
   path: "${url.pathname}${url.search}",
-  method: "${req.method}",
+  method: "${r.method}",
   headers: ${JSON.stringify(
-    req.headers.reduce(
+    r.headers.reduce(
       (acc, h) => {
         if (h.key && h.value) acc[h.key] = h.value;
         return acc;
@@ -29,6 +33,6 @@ const req = https.request(options, res => {
 });
 
 req.on("error", error => console.error(error));
-${req.body ? `req.write(${JSON.stringify(req.body)});` : ''}
+${r.body ? `req.write(${JSON.stringify(r.body)});` : ''}
 req.end();`;
 }

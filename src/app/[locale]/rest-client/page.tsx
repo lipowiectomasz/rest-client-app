@@ -10,6 +10,8 @@ import {
 import { ButtonsBar } from '@/components/ui/ButtonsBar';
 import { useTranslations } from 'next-intl';
 import { useRestClientRequest, BodyContentType } from '@/lib/rest-client/useRestClientRequest';
+import { useEffect, useState } from 'react';
+import { Variable, loadVariables } from '@/lib/variables/variablesStorage';
 
 export default function RestClientView() {
   const t = useTranslations('restClientPage');
@@ -31,6 +33,11 @@ export default function RestClientView() {
     bodyContentType,
     setBodyContentType,
   } = useRestClientRequest();
+  const [variables, setVariables] = useState<Variable[]>([]);
+
+  useEffect(() => {
+    setVariables(loadVariables());
+  }, []);
 
   return (
     <div className="max-w-screen-lg mx-auto">
@@ -74,6 +81,7 @@ export default function RestClientView() {
           headers,
           body,
         }}
+        variables={variables}
       />
     </div>
   );

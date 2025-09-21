@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import Box from '../ui/Box';
 
-type ResponseData =
+export type ResponseData =
   | { status?: number; body?: string | object; error?: string }
   | { key: string; value: string }[]
   | { error: string }
