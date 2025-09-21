@@ -19,6 +19,13 @@ export default defineConfig({
       exclude: [
         'src/**/*.d.ts',
         'src/**/index.ts',
+        'src/**/commonHeaderKeys.ts',
+        'src/**/auth.config.ts',
+        'src/**/auth.ts',
+        'src/**/middleware.ts',
+        'src/i18n/',
+        'src/app/',
+        'src/lib/',
         'src/**/__tests__/**',
         'src/**/?(*.)+(spec|test).{ts,tsx}',
       ],

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: 'REST Client App – Lightweight API Testing Tool with Authentication, History & Variables',
   description:
     'A modern, lightweight alternative to Postman for testing RESTful APIs. Built with React and Next.js/React Router 7, the app includes authentication, request history, variables, code generation (cURL, JavaScript, Python, etc.), and detailed response handling. Designed for teams, with a clean UI, private routes, and support for internationalization',
+  icons: {
+    icon: '/globe.svg',
+  },
 };
 type Params = Promise<{ locale: string }>;
 
