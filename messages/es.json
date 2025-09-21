@@ -1,0 +1,79 @@
+{
+  "navigation": {
+    "rest-client": "Rest Client",
+    "history": "Historia",
+    "variables": "Variables",
+    "language": "Seleccionar idioma"
+  },
+  "common": {
+    "signIn": "Iniciar sesión",
+    "logOut": "Cerrar sesión",
+    "signUp": "Registrarse",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "theme": {
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "password": "Contraseña",
+    "email": "Correo electrónico",
+    "name": "Nombre",
+    "placeholder": {
+      "name": "Introduce tu nombre",
+      "email": "Introduce tu correo electrónico",
+      "password": "Introduce tu contraseña",
+      "confirmPassword": "Confirmar contraseña"
+    }
+  },
+  "mainPage": {
+    "title": {
+      "in": "¡Bienvenido de nuevo!",
+      "out": "Bienvenido a la aplicación Rest Client"
+    },
+    "subtitle": "Envía solicitudes, guarda tu historial y obtén métricas al instante.",
+    "history": "Historial",
+    "variables": "Variables"
+  },
+  "restClientPage": {
+    "history": "Historial",
+    "variables": "Variables",
+    "buttons": {
+      "sendRequest": "Enviar solicitud",
+      "addHeader": "Agregar encabezado"
+    },
+    "text": {
+      "status": "Estado",
+      "error": "Error",
+      "response": "Respuesta",
+      "noResponse": "Aún no hay respuesta."
+    }
+  },
+  "footer": {
+    "text": "Rest Client App. Todos los derechos reservados.",
+    "builtBy": "Creado por"
+  },
+  "signUp": {
+    "header": "Por favor regístrate para unirte a nuestra plataforma."
+  },
+
+  "signIn": {
+    "header": "Por favor inicia sesión para continuar."
+  },
+
+  "historyPage": {
+    "title": "Historial de solicitudes",
+    "emptyState": {
+      "message": "Aún no has ejecutado ninguna solicitud",
+      "cta": "Hacer tu primera solicitud"
+    },
+    "table": {
+      "method": "Método",
+      "url": "URL",
+      "status": "Estado",
+      "duration": "Duración",
+      "timestamp": "Marca de tiempo",
+      "actions": "Acciones",
+      "view": "Ver"
+    }
+  }
+}

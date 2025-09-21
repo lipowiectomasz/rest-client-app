@@ -1,0 +1,80 @@
+{
+  "navigation": {
+    "rest-client": "Rest Client",
+    "history": "History",
+    "variables": "Variables",
+    "language": "Select Language"
+  },
+
+  "common": {
+    "signIn": "Sign In",
+    "logOut": "Log Out",
+    "signUp": "Sign Up",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "password": "Password",
+    "email": "Email",
+    "name": "Name",
+    "placeholder": {
+      "name": "Enter your name",
+      "email": "Enter your email address",
+      "password": "Enter password",
+      "confirmPassword": "Confirm password"
+    }
+  },
+  "mainPage": {
+    "title": {
+      "in": "Welcome Back!",
+      "out": "Welcome to the Rest Client App"
+    },
+    "subtitle": "Send requests, save your history, and get metrics instantly.",
+    "history": "History",
+    "variables": "Variables"
+  },
+  "signUp": {
+    "header": "Please register to join our platform."
+  },
+
+  "signIn": {
+    "header": "Please sign in to continue."
+  },
+  "restClientPage": {
+    "history": "History",
+    "variables": "Variables",
+    "buttons": {
+      "sendRequest": "Send Request",
+      "addHeader": "Add Header"
+    },
+    "text": {
+      "status": "Status",
+      "error": "Error",
+      "response": "Response",
+      "noResponse": "No response yet."
+    }
+  },
+  "footer": {
+    "text": "Rest Client App. All rights reserved.",
+    "builtBy": "Built by"
+  },
+
+  "historyPage": {
+    "title": "Request History",
+    "emptyState": {
+      "message": "You haven't executed any requests yet",
+      "cta": "Make your first request"
+    },
+    "table": {
+      "method": "Method",
+      "url": "URL",
+      "status": "Status",
+      "duration": "Duration",
+      "timestamp": "Timestamp",
+      "actions": "Actions",
+      "view": "View"
+    }
+  }
+}

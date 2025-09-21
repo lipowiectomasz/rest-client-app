@@ -1,0 +1,134 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
+import { createNavigation } from 'next-intl/navigation';
+import { locales } from '@/i18n/routing';
+import Image from 'next/image';
+import LanguageSelector from '../LanguageSelector';
+import { signOut } from 'next-auth/react';
+import { Session } from 'next-auth';
+
+const navigation = createNavigation({ locales });
+
+const Navbar = ({ session }: { session: Session | null }) => {
+  const t = useTranslations();
+  const pathname = usePathname();
+  const locale = pathname?.split('/')[1] || 'en';
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isActive = (path: string) => {
+    const basePath = `/${locale}${path}`;
+
+    if (path === '/rest-client') {
+      return pathname.startsWith(basePath);
+    }
+
+    return pathname === basePath;
+  };
+  return (
+    <nav className="flex justify-center">
+      <div
+        className={`fixed top-0 z-50 transition-all duration-400 ease-in-out w-full
+        ${
+          isSticky
+            ? 'max-w-screen-lg mx-auto mt-2 rounded-2xl shadow-lg gap-x-10 bg-indigo-200/60 backdrop-blur-lg justify-around'
+            : 'bg-indigo-200 justify-evenly'
+        }
+        text-indigo-900 py-4 px-6 flex items-center mb-8`}
+      >
+        {/* Left side - links */}
+        <div className="flex items-center gap-3">
+          <navigation.Link href="/">
+            <Image
+              src="/images/logos/rss-logo.svg"
+              alt="RSS logo"
+              width={30}
+              height={30}
+              priority
+            />
+          </navigation.Link>
+
+          {session && (
+            <navigation.Link
+              href="/rest-client"
+              className={`text-lg font-bold transition-all duration-300 px-4 py-2 rounded-full  ${
+                isActive('/rest-client')
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'hover:bg-purple-100 hover:text-purple-700'
+              }`}
+            >
+              {t('navigation.rest-client')}
+            </navigation.Link>
+          )}
+
+          {session && (
+            <navigation.Link
+              href="/history"
+              className={`text-lg font-bold transition-all duration-300 px-4 py-2 rounded-full  ${
+                isActive('/history')
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'hover:bg-purple-100 hover:text-purple-700'
+              }`}
+            >
+              {t('navigation.history')}
+            </navigation.Link>
+          )}
+          {session && (
+            <navigation.Link
+              href="/variables"
+              className={`text-lg font-bold transition-all duration-300 px-4 py-2 rounded-full  ${
+                isActive('/variables')
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'hover:bg-purple-100 hover:text-purple-700'
+              }`}
+            >
+              {t('navigation.variables')}
+            </navigation.Link>
+          )}
+        </div>
+        {/* Right side - controls */}
+        <div className="flex items-center gap-4">
+          <LanguageSelector />
+          {/* Auth buttons */}
+          {session ? (
+            <button
+              className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 cursor-pointer"
+              onClick={() => signOut()}
+            >
+              {t('common.logOut')}
+            </button>
+          ) : (
+            <>
+              <navigation.Link
+                href="/signin"
+                className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              >
+                {t('common.signIn')}
+              </navigation.Link>
+              <navigation.Link
+                href="/signup"
+                className="px-4 py-2 text-md font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600"
+              >
+                {t('common.signUp')}
+              </navigation.Link>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

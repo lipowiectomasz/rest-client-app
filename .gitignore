@@ -42,3 +42,8 @@ next-env.d.ts
 
 #ide
 .idea/
+
+# Prisma database
+prisma/*.db
+prisma/*.db-journal
+
