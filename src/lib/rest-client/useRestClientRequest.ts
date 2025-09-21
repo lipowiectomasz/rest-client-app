@@ -3,8 +3,11 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { b64EncodeUnicode, b64DecodeUnicode } from '@/app/lib/utils/base64';
 import { ProxyResponse } from '@/types/proxy';
 import { Header, HttpMethod } from '@/types/restClient';
+
 import { prettifyJson } from './prettifyJson';
 import { addEmptyHeader } from './addEmptyHeader';
+import { loadVariables } from '@/lib/variables/variablesStorage';
+import { replaceVariables, replaceVariablesInHeaders } from '@/lib/variables/replaceVariables';
 
 export type BodyContentType = 'application/json' | 'text/plain';
 
@@ -29,6 +32,11 @@ export function useRestClientRequest() {
       setError(null);
       setResponse(null);
       try {
+        const variables = loadVariables();
+        const urlWithVars = replaceVariables(url, variables);
+        const bodyWithVars = replaceVariables(body, variables);
+        const headersWithVars = replaceVariablesInHeaders(headers, variables);
+
         const payload: {
           method: HttpMethod;
           url: string;
@@ -36,17 +44,19 @@ export function useRestClientRequest() {
           body?: string;
         } = {
           method,
-          url,
-          headers: Object.fromEntries(headers.map((h) => [h.key, h.value])),
+          url: urlWithVars,
+          headers: Object.fromEntries(headersWithVars.map((h) => [h.key, h.value])),
         };
+
         if (
-          body &&
-          body.trim() !== '' &&
+          bodyWithVars &&
+          bodyWithVars.trim() !== '' &&
           (method as string) !== 'GET' &&
           (method as string) !== 'HEAD'
         ) {
-          payload.body = body;
+          payload.body = bodyWithVars;
         }
+
         const res = await fetch('/api/proxy', {
           method: 'POST',
           headers: { 'Content-Type': bodyContentType },
