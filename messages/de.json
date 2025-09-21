@@ -1,6 +1,8 @@
 {
   "navigation": {
-    "home": "Startseite",
+    "rest-client": "Rest Client",
+    "history": "Geschichte",
+    "variables": "Variablen",
     "language": "Sprache auswählen"
   },
   "common": {
@@ -55,5 +57,22 @@
   },
   "signIn": {
     "header": "Bitte melden Sie sich an, um fortzufahren."
+  },
+
+  "historyPage": {
+    "title": "Anfrageverlauf",
+    "emptyState": {
+      "message": "Sie haben noch keine Anfragen ausgeführt",
+      "cta": "Erste Anfrage stellen"
+    },
+    "table": {
+      "method": "Methode",
+      "url": "URL",
+      "status": "Status",
+      "duration": "Dauer",
+      "timestamp": "Zeitstempel",
+      "actions": "Aktionen",
+      "view": "Ansehen"
+    }
   }
 }

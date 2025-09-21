@@ -1,6 +1,8 @@
 {
   "navigation": {
-    "home": "Главная",
+    "rest-client": "Rest Client",
+    "history": "История",
+    "variables": "Переменные",
     "language": "Выбрать язык"
   },
   "common": {
@@ -56,5 +58,22 @@
 
   "signIn": {
     "header": "Пожалуйста, войдите, чтобы продолжить."
+  },
+
+  "historyPage": {
+    "title": "История запросов",
+    "emptyState": {
+      "message": "Вы еще не выполнили ни одного запроса",
+      "cta": "Сделать первый запрос"
+    },
+    "table": {
+      "method": "Метод",
+      "url": "URL",
+      "status": "Статус",
+      "duration": "Длительность",
+      "timestamp": "Время",
+      "actions": "Действия",
+      "view": "Просмотр"
+    }
   }
 }

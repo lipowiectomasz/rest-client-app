@@ -1,6 +1,8 @@
 {
   "navigation": {
-    "home": "Inicio",
+    "rest-client": "Rest Client",
+    "history": "Historia",
+    "variables": "Variables",
     "language": "Seleccionar idioma"
   },
   "common": {
@@ -56,5 +58,22 @@
 
   "signIn": {
     "header": "Por favor inicia sesión para continuar."
+  },
+
+  "historyPage": {
+    "title": "Historial de solicitudes",
+    "emptyState": {
+      "message": "Aún no has ejecutado ninguna solicitud",
+      "cta": "Hacer tu primera solicitud"
+    },
+    "table": {
+      "method": "Método",
+      "url": "URL",
+      "status": "Estado",
+      "duration": "Duración",
+      "timestamp": "Marca de tiempo",
+      "actions": "Acciones",
+      "view": "Ver"
+    }
   }
 }

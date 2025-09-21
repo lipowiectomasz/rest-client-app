@@ -1,6 +1,8 @@
 {
   "navigation": {
-    "home": "Галоўная",
+    "rest-client": "Rest Client",
+    "history": "Гісторыя",
+    "variables": "Зменныя",
     "language": "Выбраць мову"
   },
   "common": {
@@ -56,5 +58,22 @@
 
   "signIn": {
     "header": "Калі ласка, увайдзіце, каб працягнуць."
+  },
+
+  "historyPage": {
+    "title": "Гісторыя запытаў",
+    "emptyState": {
+      "message": "Вы яшчэ не выканалі ніводнага запыту",
+      "cta": "Зрабіць першы запыт"
+    },
+    "table": {
+      "method": "Метад",
+      "url": "URL-адрас",
+      "status": "Статус",
+      "duration": "Працягласць",
+      "timestamp": "Часовая метка",
+      "actions": "Дзеянні",
+      "view": "Прагляд"
+    }
   }
 }

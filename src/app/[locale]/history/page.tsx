@@ -37,7 +37,7 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
 
   const { requests } = user;
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async () => {
     'use server';
     redirect(`/${locale}/history?refresh=${Date.now()}`);
   };

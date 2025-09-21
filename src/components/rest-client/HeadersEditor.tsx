@@ -60,7 +60,7 @@ export function HeadersEditor({
               placeholder="Header Key"
               value={header.key}
               autoComplete="off"
-              className="w-full px-2 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 rounded-md inset-shadow-sm inset-shadow-slate-300 dark:inset-shadow-gray-600"
+              className="w-full px-2 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 rounded-md inset-shadow-sm inset-shadow-slate-300 dark:inset-shadow-gray-600 text-black"
               onFocus={() => {
                 setDropdownIdx(idx);
                 setFilter(header.key);
@@ -74,7 +74,7 @@ export function HeadersEditor({
             {dropdownIdx === idx && (
               <div
                 ref={dropdownRef}
-                className="absolute z-10 left-0 right-0 bg-white border border-gray-200 rounded shadow max-h-48 overflow-auto"
+                className="absolute z-10 left-0 right-0 bg-white border border-gray-200 rounded shadow max-h-48 overflow-auto text-black"
               >
                 {COMMON_HEADER_KEYS.filter((key) =>
                   key.toLowerCase().includes(filter.toLowerCase()),
@@ -101,7 +101,7 @@ export function HeadersEditor({
             placeholder="Header Value"
             value={header.value}
             onChange={(e) => updateHeader(idx, 'value', e.target.value)}
-            className="w-full px-2 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 rounded-md inset-shadow-sm inset-shadow-slate-300 dark:inset-shadow-gray-600"
+            className="w-full px-2 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 rounded-md inset-shadow-sm inset-shadow-slate-300 dark:inset-shadow-gray-600 text-black"
           />
           <button onClick={() => removeHeader(idx)} className="px-2 text-red-500">
             ✕

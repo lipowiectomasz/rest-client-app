@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { b64EncodeUnicode, b64DecodeUnicode } from '@/app/lib/utils/base64';
 import { ProxyResponse } from '@/types/proxy';
@@ -12,6 +12,7 @@ export function useRestClientRequest() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const initializedRef = useRef(false);
 
   const [method, setMethod] = useState<HttpMethod>('GET');
   const [url, setUrl] = useState('');
@@ -22,73 +23,89 @@ export function useRestClientRequest() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const runRequest = useCallback(
+    async (method: HttpMethod, url: string, body: string, headers: Header[]) => {
+      setLoading(true);
+      setError(null);
+      setResponse(null);
+      try {
+        const payload: {
+          method: HttpMethod;
+          url: string;
+          headers: Record<string, string>;
+          body?: string;
+        } = {
+          method,
+          url,
+          headers: Object.fromEntries(headers.map((h) => [h.key, h.value])),
+        };
+        if (
+          body &&
+          body.trim() !== '' &&
+          (method as string) !== 'GET' &&
+          (method as string) !== 'HEAD'
+        ) {
+          payload.body = body;
+        }
+        const res = await fetch('/api/proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': bodyContentType },
+          body: JSON.stringify(payload),
+        });
+        const data: ProxyResponse = await res.json();
+        setResponse(data);
+      } catch {
+        setError('Error sending request');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [bodyContentType],
+  );
+
   useEffect(() => {
+    // Skip if already initialized or if there's no URL to process
+    if (initializedRef.current) return;
+
     const path = pathname.split('/').filter(Boolean);
     const restIdx = path.indexOf('rest-client');
     if (restIdx !== -1 && path.length > restIdx + 1) {
       const method = path[restIdx + 1] as HttpMethod;
       const encodedUrl = path[restIdx + 2];
-      const encodedBody = path[restIdx + 3];
+
+      // Only process if we have a URL
+      if (!encodedUrl) return;
+
       try {
         setMethod(method);
-        setUrl(encodedUrl ? b64DecodeUnicode(encodedUrl) : '');
-        setBody(encodedBody ? b64DecodeUnicode(encodedBody) : '');
+        setUrl(b64DecodeUnicode(encodedUrl));
+
+        // Handle body if present
+        const encodedBody = path[restIdx + 3];
+        if (encodedBody) {
+          setBody(b64DecodeUnicode(encodedBody));
+        }
+
+        // Handle headers
         const headersArr: Header[] = [];
         searchParams.forEach((value, key) => {
           headersArr.push({ key, value: Array.isArray(value) ? value[0] : (value ?? '') });
         });
         setHeaders(headersArr);
 
-        if (encodedUrl) {
-          runRequest(
-            method,
-            b64DecodeUnicode(encodedUrl),
-            encodedBody ? b64DecodeUnicode(encodedBody) : '',
-            headersArr,
-          );
-        }
+        // Mark as initialized and run the request
+        initializedRef.current = true;
+        runRequest(
+          method,
+          b64DecodeUnicode(encodedUrl),
+          encodedBody ? b64DecodeUnicode(encodedBody) : '',
+          headersArr,
+        );
       } catch {
         setError('Error decoding URL');
       }
     }
-  }, [pathname, searchParams]);
-
-  async function runRequest(method: HttpMethod, url: string, body: string, headers: Header[]) {
-    setLoading(true);
-    setError(null);
-    setResponse(null);
-    try {
-      const payload: {
-        method: HttpMethod;
-        url: string;
-        headers: Record<string, string>;
-        body?: string;
-      } = {
-        method,
-        url,
-        headers: Object.fromEntries(headers.map((h) => [h.key, h.value])),
-      };
-      if (
-        body &&
-        body.trim() !== '' &&
-        (method as string) !== 'GET' &&
-        (method as string) !== 'HEAD'
-      ) {
-        payload.body = body;
-      }
-      const res = await fetch('/api/proxy', {
-        method: 'POST',
-        headers: { 'Content-Type': bodyContentType },
-        body: JSON.stringify(payload),
-      });
-      const data: ProxyResponse = await res.json();
-      setResponse(data);
-    } catch {
-      setError('Error sending request');
-    } finally {
-      setLoading(false);
-    }
-  }
+  }, [pathname, searchParams, runRequest]);
 
   function sendRequest() {
     const encodedUrl = b64EncodeUnicode(url);
@@ -114,8 +131,11 @@ export function useRestClientRequest() {
     if (query.toString()) {
       route += `?${query.toString()}`;
     }
+
+    // Reset initialization state before navigation
+    initializedRef.current = false;
     router.replace(route, { scroll: false });
-    runRequest(method, url, body, headers);
+    // runRequest(method, url, body, headers);
   }
 
   function addHeader() {

@@ -28,8 +28,15 @@ const Navbar = ({ session }: { session: Session | null }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isActive = (path: string) => pathname === `/${locale}${path}`;
+  const isActive = (path: string) => {
+    const basePath = `/${locale}${path}`;
 
+    if (path === '/rest-client') {
+      return pathname.startsWith(basePath);
+    }
+
+    return pathname === basePath;
+  };
   return (
     <nav className="flex justify-center">
       <div
@@ -56,10 +63,10 @@ const Navbar = ({ session }: { session: Session | null }) => {
           {session && (
             <navigation.Link
               href="/rest-client"
-              className={`text-lg font-bold transition-colors ${
-                isActive('')
-                  ? 'underline underline-offset-4 text-purple-900'
-                  : 'hover:text-purple-500'
+              className={`text-lg font-bold transition-all duration-300 px-4 py-2 rounded-full  ${
+                isActive('/rest-client')
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'hover:bg-purple-100 hover:text-purple-700'
               }`}
             >
               {t('navigation.rest-client')}
@@ -69,13 +76,25 @@ const Navbar = ({ session }: { session: Session | null }) => {
           {session && (
             <navigation.Link
               href="/history"
-              className={`text-lg font-bold transition-colors ${
+              className={`text-lg font-bold transition-all duration-300 px-4 py-2 rounded-full  ${
                 isActive('/history')
-                  ? 'underline underline-offset-4 text-purple-900'
-                  : 'hover:text-purple-500'
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'hover:bg-purple-100 hover:text-purple-700'
               }`}
             >
               {t('navigation.history')}
+            </navigation.Link>
+          )}
+          {session && (
+            <navigation.Link
+              href="/variables"
+              className={`text-lg font-bold transition-all duration-300 px-4 py-2 rounded-full  ${
+                isActive('/variables')
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'hover:bg-purple-100 hover:text-purple-700'
+              }`}
+            >
+              {t('navigation.variables')}
             </navigation.Link>
           )}
         </div>

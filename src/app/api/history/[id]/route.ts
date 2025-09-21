@@ -2,14 +2,14 @@ import { NextRequest } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    const historyId = params.id;
+    const { id: historyId } = await params; // Await the params
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
     });
@@ -46,14 +46,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    const historyId = params.id;
+    const { id: historyId } = await params; // Await the params
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
     });
