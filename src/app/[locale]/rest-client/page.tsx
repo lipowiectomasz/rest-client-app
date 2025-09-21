@@ -1,6 +1,4 @@
 'use client';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import {
   MethodSelector,
   UrlInput,
@@ -12,7 +10,6 @@ import {
 import { ButtonsBar } from '@/components/ui/ButtonsBar';
 import { useTranslations } from 'next-intl';
 import { useRestClientRequest, BodyContentType } from '@/lib/rest-client/useRestClientRequest';
-import { useEffect } from 'react';
 
 export default function RestClientView() {
   const t = useTranslations('restClientPage');
@@ -34,23 +31,6 @@ export default function RestClientView() {
     bodyContentType,
     setBodyContentType,
   } = useRestClientRequest();
-
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/signin');
-    }
-  }, [status, router]);
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (!session) {
-    return null;
-  }
 
   return (
     <div className="max-w-screen-lg mx-auto">
