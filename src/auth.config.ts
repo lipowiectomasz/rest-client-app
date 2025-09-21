@@ -7,6 +7,7 @@ export const authConfig = {
     signIn: '/signin',
     error: '/error',
   },
+  trustHost: true,
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const pathSegments = nextUrl.pathname.split('/');
