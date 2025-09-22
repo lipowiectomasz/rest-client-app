@@ -5,6 +5,22 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import DeleteButton from '@/components/ui/DeleteButton';
 
+interface ItemHistory {
+  error: string | null;
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  method: string;
+  url: string;
+  statusCode: number | null;
+  duration: number;
+  requestSize: number | null;
+  responseSize: number | null;
+  headers: string;
+  body: string | null;
+}
+
 function encodeForUrl(str: string): string {
   return Buffer.from(str).toString('base64');
 }
@@ -100,7 +116,7 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {requests.map((request: Request) => {
+                {requests.map((request: ItemHistory) => {
                   // Encode the URL and body for the REST client URL
                   const encodedUrl = encodeForUrl(request.url);
                   const encodedBody = request.body ? encodeForUrl(request.body) : null;
