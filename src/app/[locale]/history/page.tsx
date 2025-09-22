@@ -100,7 +100,7 @@ export default async function HistoryPage({ params }: { params: Promise<{ locale
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {requests.map((request) => {
+                {requests.map((request: Request) => {
                   // Encode the URL and body for the REST client URL
                   const encodedUrl = encodeForUrl(request.url);
                   const encodedBody = request.body ? encodeForUrl(request.body) : null;
